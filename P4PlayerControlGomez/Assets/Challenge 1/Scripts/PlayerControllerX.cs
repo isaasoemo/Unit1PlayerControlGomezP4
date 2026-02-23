@@ -4,13 +4,9 @@ using UnityEngine;
 
 public class PlayerControllerX : MonoBehaviour
 {
-    private float speed = 20.0f;
-    private float turnSpeed = 45.0f;
-    private float horizontalInput;
-    private float forwardInput;
-    public Camera mainCamera;
-    public Camera hoodCamera;
-    public KeyCode switchKey;
+    public float speed;
+    public float rotationSpeed;
+    public float verticalInput;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,20 +15,15 @@ public class PlayerControllerX : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
-        forwardInput = Input.GetAxis("Vertical");
+        // Get the user's vertical input
+        verticalInput = Input.GetAxis("Vertical");
 
-        // Moves the car forward based on vertical input
-        transform.Translate(Vector3.forward * Time.deltaTime * speed * forwardInput);
-        // Rotates thee car based on horizontal input
-        transform.Rotate(Vector3.up, turnSpeed * horizontalInput * Time.deltaTime);
+        // Miove the plane forward at a constant rate
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
 
-        if (Input.GetKeyDown(switchKey))
-        {
-            mainCamera.enabled = !mainCamera.enabled;
-            hoodCamera.enabled = !hoodCamera.enabled;
-        }
+        // tilt the plane up/down arrow keys
+        transform.Rotate(Vector3.right * rotationSpeed * Time.deltaTime * verticalInput);
     }
 }
